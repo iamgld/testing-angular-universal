@@ -8,7 +8,15 @@ if (environment.production) {
 	enableProdMode()
 }
 
-platformBrowserDynamic()
-	.bootstrapModule(AppModule)
-	// eslint-disable-next-line no-console
-	.catch((error) => console.error(error))
+function bootstrap() {
+	platformBrowserDynamic()
+		.bootstrapModule(AppModule)
+		// eslint-disable-next-line no-console
+		.catch((error) => console.error(error))
+}
+
+if (document.readyState === 'complete') {
+	bootstrap()
+} else {
+	document.addEventListener('DOMContentLoaded', bootstrap)
+}

@@ -30,7 +30,7 @@
 				"build": {
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
-						"outputPath": "dist",
+						"outputPath": "dist/testing-angular-universal/browser",
 						"index": "src/index.html",
 						"main": "src/main.ts",
 						"polyfills": "src/polyfills.ts",
@@ -126,7 +126,73 @@
 					"options": {
 						"lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
 					}
-				}
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/testing-angular-universal/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "optimization": false,
+            "sourceMap": true,
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "./src/app/styles"
+              ]
+            },
+            "extractLicenses": false,
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "sourceMap": false,
+              "extractLicenses": true
+            },
+            "development": {}
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "testing-angular-universal:build:development",
+              "serverTarget": "testing-angular-universal:server:development"
+            },
+            "production": {
+              "browserTarget": "testing-angular-universal:build:production",
+              "serverTarget": "testing-angular-universal:server:production"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "options": {
+            "routes": [
+              "/"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "testing-angular-universal:build:production",
+              "serverTarget": "testing-angular-universal:server:production"
+            },
+            "development": {
+              "browserTarget": "testing-angular-universal:build:development",
+              "serverTarget": "testing-angular-universal:server:development"
+            }
+          },
+          "defaultConfiguration": "production"
+        }
 			}
 		}
 	},
