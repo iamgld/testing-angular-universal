@@ -17,7 +17,7 @@ import { effects } from '@store/effects'
 @NgModule({
 	declarations: [AppComponent],
 	imports: [
-		BrowserModule,
+		BrowserModule.withServerTransition({ appId: 'serverApp' }),
 		AppRoutingModule,
 		// Store (NGRX)
 		StoreModule.forRoot(reducers, { metaReducers }),
